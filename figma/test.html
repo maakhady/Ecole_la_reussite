@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord - Surveillant</title>
+    <!-- Lien vers Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Votre fichier CSS personnalisé -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar (Menu) -->
+            <nav class="col-md-2 bg-light sidebar py-4">
+                <div class="text-center mb-4">
+                    <img src="path/to/surveillant-icon.png" alt="Surveillant" class="img-fluid">
+                    <h4>Surveillant</h4>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Tableau de Bord</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Élèves</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Enseignants</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Employés</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cours</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Classes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Présences</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Notes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Emplois du temps</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Bulletins</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-10 ml-sm-auto px-4">
+                <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Liste des Élèves</h1>
+                    <a href="logout.php" class="btn btn-warning">Déconnexion</a>
+                </div>
+                
+                <div class="d-flex justify-content-between mb-4">
+                    <a href="ajout_eleve.php" class="btn btn-success">AJOUT D'UN ÉLÈVE</a>
+                    <input type="text" class="form-control w-25" placeholder="Rechercher">
+                </div>
+                
+                <!-- Zone de la liste des élèves -->
+                <div class="bg-light p-3 rounded">
+                    <h4>Listes des élèves</h4>
+                    <!-- Table dynamique des élèves ici -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Lien vers Bootstrap JS et dépendances -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
