@@ -37,7 +37,7 @@ if (!isset($users) || !is_array($users)) {
                 <div class="d-grid gap-4">
                     <button class="btn btn-success menu-button"><i class="fas fa-tachometer-alt"></i> Tableau de Bord</button>
                     <button class="btn link btn-success menu-button"><i class="fas fa-user-graduate"></i> Utilisateurs</button>            
-                    <a href="/../La_reussite_academy-main/eleves.php"><button class="btn btn-success menu-button"><i class="fas fa-chalkboard-teacher"></i> Élèves</button></a>
+                    <button class="btn btn-success menu-button"><a href="/../La_reussite_academy-main/eleves.php"><i class="fas fa-chalkboard-teacher"></i> Élèves</button></a>
                     <!-- <button class="btn btn-success menu-button"><i class="fas fa-chalkboard-teacher"></i> Enseignants</button> -->
                     <!-- <button class="btn btn-success menu-button"><i class="fas fa-users"></i> Employés</button> -->
                     <button class="btn btn-success menu-button"><i class="fas fa-book"></i> Cours</button>

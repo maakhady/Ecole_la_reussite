@@ -3,26 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier l'utilisateur - <?php echo $role; ?></title>
+    <title>Gestion des Enseignants</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
     <style>
-        .error-message {
-            color: rgba(212, 60, 60, 0.959);
-            font-size: 12px;
-            margin-top: 5px;
-            display: block;
+        body {
+            background-color: #f1f1f1;
         }
         .sidebar {
-            background-color: #f8f9fa;
+            background-color: #00A96B;
             min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+        .menu-button {
+            background-color: transparent;
+            color: white;
+            font-weight: bold;
+            border: none;
+            text-align: left;
+        }
+        .menu-button i {
+            margin-right: 10px;
+        }
+        .menu-button:hover {
+            background-color: #007f50;
+            color: white;
         }
         .main-content {
             padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            margin: 20px;
         }
-        .custom-bg {
-            background-color: #f8f9fa;
+        .form-control, .form-select {
+            border-radius: 10px;
+        }
+        .logo-container img {
+            width: 120px;
+        }
+        .btn-success {
+            background-color: #00A96B;
+            border-color: #00A96B;
+        }
+        .btn-danger {
+            background-color: #FF5656;
+        }
+        .form-container {
+            background-color: #F8F9FA;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .header {
+            background-color: #F8F9FA;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -32,88 +71,117 @@
         <!-- Sidebar -->
         <div class="col-md-2 sidebar">
             <div class="text-center mb-4">
-                <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark">
-                    <svg class="me-2" width="52" height="40">
-                        <circle cx="20" cy="20" r="18" stroke="black" stroke-width="2" fill="none"/>
-                        <text x="15" y="25" fill="black" font-size="12">D</text>
-                    </svg> 
-                    <h4><span class="fs-4" style="font-weight: bold; font-size: 1.5rem;"><?php echo $role; ?></span></h4>
-                </div>     
-            </div><br>
+                <img src="avatar.png" alt="Administrateur" class="rounded-circle" style="width: 100px;">
+                <h4>Administrateur</h4>
+            </div>
             <div class="d-grid gap-4">
-                <button class="btn btn-success menu-button"><i class="fas fa-tachometer-alt"></i> Tableau de Bord</button>
-                <button class="btn link btn-success menu-button"><i class="fas fa-user-graduate"></i> Utilisateurs</button>            
-                <button class="btn btn-success menu-button"><i class="fas fa-chalkboard-teacher"></i> Élèves</button>
-                <button class="btn btn-success menu-button"><i class="fas fa-book"></i> Cours</button>
-                <button class="btn btn-success menu-button"><i class="fas fa-clipboard-list"></i> Présences</button>
-                <button class="btn btn-success menu-button"><i class="fas fa-clipboard"></i> Notes</button>
-                <button class="btn btn-success menu-button"><i class="fas fa-calendar-alt"></i> Emplois du temps</button>
-                <button class="btn btn-success menu-button"><i class="fas fa-dollar-sign"></i> Comptabilité</button>
+                <button class="btn menu-button"><i class="fas fa-tachometer-alt"></i> Tableau de Bord</button>
+                <button class="btn menu-button"><i class="fas fa-user-graduate"></i> Élèves</button>
+                <button class="btn menu-button"><i class="fas fa-chalkboard-teacher"></i> Enseignants</button>
+                <button class="btn menu-button"><i class="fas fa-users"></i> Employés</button>
+                <button class="btn menu-button"><i class="fas fa-book"></i> Cours</button>
+                <button class="btn menu-button"><i class="fas fa-clipboard-list"></i> Présences</button>
+                <button class="btn menu-button"><i class="fas fa-clipboard"></i> Notes</button>
+                <button class="btn menu-button"><i class="fas fa-calendar-alt"></i> Emplois du temps</button>
+                <button class="btn menu-button"><i class="fas fa-dollar-sign"></i> Comptabilité</button>
             </div>
         </div>
 
         <!-- Main Content -->
-        <div class="col-md-10 main-content">
-            <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light">
-                <h2>Modifier l'utilisateur</h2>
-                <div class="d-flex align-items-center">
-                    <a href="/../La_reussite_academy-main/Views/ConnexionView.php" class="btn btn-danger mr-2">Déconnexion</a>
-                    <div class="logo-container">
-                        <img src="logo.png" alt="Logo" class="logo" style="width: 100px;">
-                    </div>
-                </div>
+        <div class="col-md-10">
+            <div class="header d-flex justify-content-between align-items-center">
+                <h2>Gestion des Enseignants</h2>
+                <a href="#" class="btn btn-danger">Déconnexion</a>
+                <img src="/assets/img/logo.png" alt="logo">
             </div>
+            <div class="main-content">
+                <form method="post" class="form-container">
+                    <div class="row">
+                        <!-- Colonne de gauche -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="nom" class="form-label">Nom</label>
+                                <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom">
+                            </div>
 
-            <?php if (isset($error)): ?>
-                <div class="alert alert-danger">
-                    <?php echo htmlspecialchars($error); ?>
-                </div>
-            <?php endif; ?>
+                            <div class="mb-3">
+                                <label for="prenom" class="form-label">Prénom</label>
+                                <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prénom">
+                            </div>
 
-            <div class="custom-bg p-4 rounded shadow">
-                <form method="post" id="editUserForm">
-                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($user['id']); ?>">
+                            <div class="mb-3">
+                                <label for="date_naissance" class="form-label">Date de Naissance</label>
+                                <input type="date" class="form-control" id="date_naissance" name="date_naissance">
+                            </div>
 
-                    <div class="mb-3">
-                        <label for="nom" class="form-label">Nom</label>
-                        <input type="text" class="form-control" id="nom" name="nom" value="<?php echo htmlspecialchars($user['nom']); ?>">
-                        <span class="error-message" id="error-nom"></span>
-                    </div>
+                            <div class="mb-3">
+                                <label for="niveau" class="form-label">Niveau d'Enseignements</label>
+                                <select class="form-select" id="niveau" name="niveau" onchange="toggleFields()">
+                                    <option value="primaire">Primaire</option>
+                                    <option value="secondaire">Secondaire</option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="prenom" class="form-label">Prénom</label>
-                        <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo htmlspecialchars($user['prenom']); ?>">
-                        <span class="error-message" id="error-prenom"></span>
-                    </div>
+                        <!-- Colonne de droite -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="telephone" class="form-label">Téléphone</label>
+                                <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Téléphone">
+                            </div>
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>">
-                        <span class="error-message" id="error-email"></span>
-                    </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                            </div>
 
-                    <div class="mb-3">
-                        <label for="role_id" class="form-label">Rôle</label>
-                        <select class="form-select" id="role_id" name="role_id">
-                            <?php foreach($roles as $role): ?>
-                                <option value="<?php echo htmlspecialchars($role['id']); ?>"
-                                    <?php echo $user['role_id'] == $role['id'] ? 'selected' : ''; ?>>
-                                    <?php echo htmlspecialchars($role['nom_role']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                        <span class="error-message" id="error-role"></span>
-                    </div>
+                            <!-- Champ pour le choix des matières, visible uniquement si niveau = secondaire -->
+                            <div id="matiere-fields">
+                                <div class="mb-3">
+                                    <label for="matiere1" class="form-label">Matière 1</label>
+                                    <select class="form-select" id="matiere1" name="matiere1">
+                                        <option>Maths</option>
+                                        <option>PC</option>
+                                        <option>SVT</option>
+                                        <option>Anglais</option>
+                                        <option>Français</option>
+                                        <option>Histoire-Géographie</option>
+                                    </select>
+                                </div>
 
-                    <div class="mb-3">
-                        <label for="date_embauche" class="form-label">Date d'embauche</label>
-                        <input type="date" class="form-control" id="date_embauche" name="date_embauche" value="<?php echo htmlspecialchars($user['date_embauche']); ?>">
-                        <span class="error-message" id="error-date"></span>
+                                <div class="mb-3">
+                                    <label for="matiere2" class="form-label">Matière 2</label>
+                                    <select class="form-select" id="matiere2" name="matiere2">
+                                        <option>Maths</option>
+                                        <option>PC</option>
+                                        <option>SVT</option>
+                                        <option>Anglais</option>
+                                        <option>Français</option>
+                                        <option>Histoire-Géographie</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Champ pour le choix de la classe, visible uniquement si niveau = primaire -->
+                            <div id="classe-fields" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="classe" class="form-label">Classe</label>
+                                    <select class="form-select" id="classe" name="classe">
+                                        <option>CI</option>
+                                        <option>CP</option>
+                                        <option>CE1</option>
+                                        <option>CE2</option>
+                                        <option>CM1</option>
+                                        <option>CM2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="text-center">
-                        <button type="submit" class="btn btn-success">Mettre à jour</button>
-                        <a href="index.php" class="btn btn-secondary">Annuler</a>
+                        <button type="submit" class="btn btn-success">Enregistrer</button>
+                        <button type="reset" class="btn btn-secondary">Annuler</button>
                     </div>
                 </form>
             </div>
@@ -121,64 +189,25 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-document.getElementById("editUserForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    
-    // Réinitialise les messages d'erreur
-    document.getElementById("error-nom").textContent = "";
-    document.getElementById("error-prenom").textContent = "";
-    document.getElementById("error-email").textContent = "";
-    document.getElementById("error-role").textContent = "";
-    document.getElementById("error-date").textContent = "";
-    
-    // Récupère les valeurs des champs
-    let nom = document.getElementById("nom").value.trim();
-    let prenom = document.getElementById("prenom").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let role = document.getElementById("role_id").value;
-    let date = document.getElementById("date_embauche").value;
-    
-    // Initialise un booléen pour suivre les erreurs
-    let hasError = false;
+// Fonction pour afficher/masquer les champs en fonction du niveau choisi
+function toggleFields() {
+    var niveau = document.getElementById("niveau").value;
+    var matiereFields = document.getElementById("matiere-fields");
+    var classeFields = document.getElementById("classe-fields");
 
-    // Validation des champs
-    if (nom === "") {
-        document.getElementById("error-nom").textContent = "Le nom est requis.";
-        hasError = true;
+    if (niveau === "primaire") {
+        matiereFields.style.display = "none";
+        classeFields.style.display = "block";
+    } else {
+        matiereFields.style.display = "block";
+        classeFields.style.display = "none";
     }
-    if (prenom === "") {
-        document.getElementById("error-prenom").textContent = "Le prénom est requis.";
-        hasError = true;
-    }
-    if (email === "") {
-        document.getElementById("error-email").textContent = "L'email est requis.";
-        hasError = true;
-    } else if (!validateEmail(email)) {
-        document.getElementById("error-email").textContent = "Veuillez entrer un email valide.";
-        hasError = true;
-    }
-    if (role === "") {
-        document.getElementById("error-role").textContent = "Le rôle est requis.";
-        hasError = true;
-    }
-    if (date === "") {
-        document.getElementById("error-date").textContent = "La date d'embauche est requise.";
-        hasError = true;
-    }
-
-    // Si aucune erreur, on soumet le formulaire
-    if (!hasError) {
-        this.submit();
-    }
-});
-
-// Fonction pour valider un email
-function validateEmail(email) {
-    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
 }
+
+// Appel initial pour afficher les bons champs lors du chargement
+toggleFields();
 </script>
+
 </body>
 </html>

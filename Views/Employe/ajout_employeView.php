@@ -24,14 +24,34 @@ $employes = 60;
     margin-top: 5px;
     display: block;
     } 
+    .sidebar {
+            transition: all 0.3s;
+            display: none; /* Cacher par défaut */
+        }
+        .sidebar.active {
+            display: block; /* Afficher lorsqu'il est actif */
+        }
+        @media (min-width: 768px) {
+            .sidebar {
+                display: block; /* Afficher sur écrans plus grands */
+            }
+        }
+        .menu-button {
+            margin-top: 10px;
+        }
 </style>
 </head>
 
 <body>
 <div class="container-fluid">
     <div class="row">
+
+    <div class="col-md-2 d-md-none">
+            <button class="btn btn-primary" id="menuToggle"><i class="fas fa-bars"></i></button>
+        </div>
+
         <!-- Sidebar -->
-        <div class="col-md-2 sidebar">
+        <div class="col-md-2 sidebar" id="sidebar">
             <div class="text-center mb-4">
                 <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark">
                     <svg class="me-2" width="52" height="40">
@@ -94,28 +114,28 @@ $employes = 60;
                 <h5 class="text-center mb-4">Enregistrement d'un nouvel employé</h5>
                 <form class="row gy-3 needs-validation" id="myForm" method="POST" action="../../Controllers/employe.php">
                     <div class="col-md-6">
-                        <label for="nom" class="form-label">Nom</label>
-                        <input type="text" name="nom" class="form-control" id="name">
+                        <label for="name" class="form-label">Nom</label>
+                        <input type="text" name="nom" class="form-control" id="name" autocomplete="Nom-de-famille">
                         <span class="error-message" id="error-name"></span>
                     </div>
                     <div class="col-md-6">
                         <label for="prenom" class="form-label">Prénom</label>
-                        <input type="text" name="prenom" class="form-control" id="prenom" >
+                        <input type="text" name="prenom" class="form-control" id="prenom" autocomplete="Prenom">
                         <span class="error-message" id="error-prenom"></span>
                     </div>
                     <div class="col-md-6">
-                        <label for="date_naissance" class="form-label">Date de naissance</label>
-                        <input type="date" name="date_naissance" class="form-control" id="date"  max="2006-01-31">
+                        <label for="date" class="form-label">Date de naissance</label>
+                        <input type="date" name="date_naissance" class="form-control" id="date" >
                         <span class="error-message" id="error-date"></span>
                     </div>
                     <div class="col-md-6">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" id="email">
+                        <input type="email" name="email" class="form-control" id="email" autocomplete="Adresse-mail">
                         <span class="error-message" id="error-email"></span>
                     </div>
                     <div class="col-md-6">
-                        <label for="telephone" class="form-label">Téléphone</label>
-                        <input type="tel" name="telephone" class="form-control" id="phone" min="700000000" max="789999999">
+                        <label for="phone" class="form-label">Téléphone</label>
+                        <input type="tel" name="telephone" class="form-control" id="phone" autocomplete="tel">
                         <span class="error-message" id="error-phone"></span>
                     </div>
                     <div class="col-md-6">
@@ -128,17 +148,71 @@ $employes = 60;
                             <option value="2">Directeur</option>
                             <option value="1">Comptable</option>
                             <option value="5">Surveillant</option>
+                            <option value="3">Professeur</option>
+                            <option value="4">Enseignant</option>
                         </select>
                         <span class="error-message" id="error-role"></span>
                     </div>
                     <div id="mot_de_passe_section" class="col-md-6" style="display: none;">
-                        <label for="mot_de_passe" class="form-label">Mot de passe</label>
-                        <input type="password" name="mot_de_passe" class="form-control" id="password">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <div class="input-group">
+                        <input type="password" name="mot_de_passe" class="form-control" id="password" autocomplete="Mot-de-passe">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        </div>
                         <span class="error-message" id="error-password"></span>
+                    </div>
+                    <div id="teacher_section" class="col-md-6" style="display: none;">
+                    
+                            <!-- Champs pour les matieres -->
+                            <div id="matiere-fields">
+                                <div class="mb-3">
+                                    <label for="matiere1" class="form-label">Matière 1</label>
+                                    <select class="form-select" id="matiere1" name="matiere1">
+                                        <option value="Maths">Maths</option>
+                                        <option value="PC">PC</option>
+                                        <option value="SVT">SVT</option>
+                                        <option value="Anglais">Anglais</option>
+                                        <option value="Français">Français</option>
+                                        <option value="HG">Histoire-Géographie</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="matiere2" class="form-label">Matière 2</label>
+                                    <select class="form-select" id="matiere2" name="matiere2">
+                                        <option value="Maths">Maths</option>
+                                        <option value="PC">PC</option>
+                                        <option value="SVT">SVT</option>
+                                        <option value="Anglais">Anglais</option>
+                                        <option value="Français">Français</option>
+                                        <option value="HG">Histoire-Géographie</option>
+                                    </select>
+                                    <span class="error-message" id="error-matiere2"></span>
+                                </div>
+                            </div>
+
+                            <!-- Champ pour le choix de la classe, visible uniquement si niveau = primaire -->
+                            <div id="classe-fields" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="classe" class="form-label">Classe</label>
+                                    <select class="form-select" id="classe" name="classe">
+                                        <option value="CI">CI</option>
+                                        <option value="CP">CP</option>
+                                        <option value="CE1">CE1</option>
+                                        <option value="CE2">CE2</option>
+                                        <option value="CM1">CM1</option>
+                                        <option value="CM2">CM2</option>
+                                    </select>
+                                </div>
+                            </div>
                     </div>
                     <div class="col-12 text-center">
                         <button class="btn btn-success" type="submit">Enregistrer</button>
-                        <a href="/../La_reussite_academy-main/index.php" class="btn btn-danger mr-2">Retour</a>
+                        <a href="/../La_reussite_academy-main/Views/Eleve/userListView.php" class="btn btn-danger mr-2">Retour</a>
                     </div>
                 </form>
             </div>
@@ -148,13 +222,55 @@ $employes = 60;
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    document.getElementById('menuToggle').addEventListener('click', function() {
+        var sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('active'); // Basculer la classe active
+    });
+
+    // Écouteur d'événements pour le changement du mot de passe
+document.addEventListener("DOMContentLoaded", function () {
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('password');
+    const toggleIcon = document.getElementById('togglePasswordIcon');
+    
+    togglePassword.addEventListener("click", function () {
+        // Bascule le type de l'input entre 'password' et 'text'
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = "password";
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    });
+});
+
+
+
     document.getElementById('role').addEventListener('change', function() {
+        var matiereFields = document.getElementById("matiere-fields");
+        var classeFields = document.getElementById("classe-fields");
+
         var role = this.value;
         var passwordSection = document.getElementById('mot_de_passe_section');
-        if (role == '1' || role == '2' || role == '3') {
+        var teacherSection = document.getElementById('teacher_section');
+        if (role == '1' || role == '2' || role == '3'|| role == '4' || role == '5') {
             passwordSection.style.display = 'block';
         } else {
             passwordSection.style.display = 'none';
+        }
+        if(role == '3'){
+            teacherSection.style.display = 'block';
+            matiereFields.style.display = 'block';
+            classeFields.style.display = 'none';
+        } else if(role == '4'){
+            teacherSection.style.display = 'block';
+            matiereFields.style.display = 'none';
+            classeFields.style.display = 'block';
+        } else {
+            teacherSection.style.display = 'none';
         }
     });
     document.getElementById("myForm").addEventListener("submit", function(event) {
@@ -169,6 +285,7 @@ $employes = 60;
     document.getElementById("error-role").textContent = "";
     document.getElementById("error-password").textContent = "";
     document.getElementById("error-date").textContent = "";
+    document.getElementById("error-matiere2").textContent = "";
     
     // Récupère les valeurs des champs
     let name = document.getElementById("name").value.trim();
@@ -178,9 +295,25 @@ $employes = 60;
     let role = document.getElementById("role").value;
     let password = document.getElementById("password").value;
     let date = document.getElementById("date").value;
+    let matiere1 = document.getElementById("matiere1").value;
+    let matiere2 = document.getElementById("matiere2").value;
     
     // Initialise un booléen pour suivre les erreurs
     let hasError = false;
+
+    let currentDate = new Date();
+    let birthDate = new Date(date);
+    let maxDate = new Date("2006-01-31");
+
+    if (birthDate > maxDate) {
+        document.getElementById("error-date").textContent = "La date de naissance ne doit pas être supérieure au 31 janvier 2006.";
+        hasError = true;
+    }
+
+    if(matiere1 === matiere2){
+        document.getElementById("error-matiere2").textContent = "Veuillez choisir deux matieres differentes";
+        hasError = true;
+    }
 
     // Validation du nom
     if (name === "") {
@@ -202,20 +335,25 @@ $employes = 60;
         hasError = true;
     }
 
+    if (role == '1' || role == '2' || role == '3'|| role == '4' || role == '5'){
     if (password === "") {
         document.getElementById("error-password").textContent = "Le mot de passe est requis.";
         hasError = true;
     }
+}
 
+    if(phone > 789999999 || phone < 700000000){
+        document.getElementById("error-phone").textContent = "Numero de telephone non valide";
+        hasError = true;
+    }
+    
     if (date === "") {
         document.getElementById("error-date").textContent = "La date est requis.";
         hasError = true;
     }
 
-    if (date > "2006-01-01") {
-        document.getElementById("error-date").textContent = "La date est invalide.";
-        hasError = true;
-    }
+
+
 
 
 
@@ -230,8 +368,7 @@ $employes = 60;
 
     // Si aucune erreur, on soumet le formulaire
     if (!hasError) {
-        // Simuler la soumission (remplacer par `this.submit();` pour une soumission réelle)
-        alert("Le formulaire est valide et soumis !");
+        this.submit();
     }
 });
 
