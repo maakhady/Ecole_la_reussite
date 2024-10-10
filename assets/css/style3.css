@@ -1,0 +1,105 @@
+
+   .logo {
+    width: 250px;
+    height: 250px;
+    position: fixed;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    background-color: #dfdede;
+    height: auto;
+}
+
+h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.form-group input {
+    border-radius: 30px;
+    padding: 25px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding-top: 50px;
+    }
+}
+
+ h1{
+    text-align: center;
+    color: black;
+    text-decoration: black;
+    font-weight: bold;
+ } 
+ .p-3 {
+    background-color: #dfdede;
+    border: none;
+    border-radius: 10px;
+    background-color: #dfdede;
+    height: auto;
+    width: 500px;
+    height: 400px;
+    color: black;
+    font-family: black;
+    
+ }
+ .btn btn-success btn-block{
+    background-color: #18BE78;
+    border: none;
+    border-radius: 0px;
+    padding: 10px;
+    font-size: 16px;
+    width: 160px;
+    position: relative;
+    left: 200px;
+    top: 25px;
+ }
+ label{
+    color: black;
+ }
+ button{
+    background-color: #18BE78;
+    border: none;
+    border-radius: 0px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    
+    position: relative;
+    width: 200px;
+ 
+ }
+ label{
+    font-family: black;
+ }
+ .form-group{
+    font-family: black;
+ }
+ body {
+    background-color: white;
+    color: black;
+}
+.btn-success {
+    padding: 5px 10px; /* Ajustez ces valeurs pour réduire l'espace autour du texte */
+    font-size: 14px;   /* Réduisez la taille de la police */
+    width: 100px;       /* Vous pouvez définir une largeur fixe si nécessaire */
+    height: auto;      /* Vous pouvez définir une hauteur fixe si nécessaire */
+    border-radius: 0px; /* Ajustez le rayon des coins si besoin */
+    position: relative;
+    margin-top: 50px;
+    left: 190px;
+}

@@ -1,0 +1,103 @@
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Surveillant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark">
+                        <svg class="me-2" width="40" height="40">
+                            <circle cx="20" cy="20" r="18" stroke="black" stroke-width="2" fill="none"/>
+                            <text x="15" y="25" fill="black" font-size="12">S</text>
+                        </svg>
+                        <span class="fs-4">Surveillant</span>
+                    </div><br><br>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                Tableau de Bord
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Élèves
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Enseignants
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Employés
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Cours
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Classes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Présences
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Notes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Emplois du temps
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Bulletins
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard surveillant</h1>
+                    <img src="logo.png" alt="Logo" class="logo">
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="button" class="btn btn-danger mr-2">Déconnexion</button>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between mb-4">
+                <button class="btn btn-success mb-3">AJOUT D'UN ÉLÈVE</button>
+                <input type="text" class="form-control w-25" placeholder="Rechercher">
+                </div>
+                <div class="row">
+                    <div class="bg-light p-4 rounded border border-primary">
+                        <h5 class="text-center">Listes des élèves</h5>
+                        <!-- Table des élèves ici -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
