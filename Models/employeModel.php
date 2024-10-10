@@ -1,5 +1,10 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 // Connexion à la base de données
 class Database {
     private static $host = 'localhost';
@@ -42,34 +47,34 @@ class User {
     private $date_embauche;
     private $classe;
     private $matieres;
+    private $id;
 
     public function __construct($nom, $prenom, $date_naissance, $email, $telephone, $role_id, $matieres = [], $classe = null, $mot_de_passe = null) {
         $this->nom = $nom;
         $this->prenom = $prenom;
-        $this->date_naissance = $date_naissance;
+        $this->date_naissance = $date_naissance->format('Y-m-d');
         $this->email = $email;
         $this->telephone = $telephone;
         $this->role_id = $role_id;
         $this->mot_de_passe = $mot_de_passe ? password_hash($mot_de_passe, PASSWORD_DEFAULT) : null; // Hachage du mot de passe
-        $this->matricule = uniqid(); // Génération du matricule 
         $this->date_embauche = date('Y-m-d');
         $this->matieres = $matieres; 
-        $this->classe = $classe;    
+        $this->classe = $classe;
+        $this->matricule = uniqid();
     }
 
     public function save() {
         $db = Database::getConnection();
-
-        // Vérification de l'existence de l'email
+    
         if (self::exists($this->email)) {
             throw new Exception("L'email existe déjà.");
         }
-
+    
         $db->beginTransaction();
         try {
             $query = "INSERT INTO users (role_id, matricule, nom, prenom, date_naissance, telephone, email, mot_passe, date_embauche, archivage)
                       VALUES (:role_id, :matricule, :nom, :prenom, :date_naissance, :telephone, :email, :mot_passe, :date_embauche, 0)";
-
+    
             $stmt = $db->prepare($query);
             $stmt->bindParam(':nom', $this->nom);
             $stmt->bindParam(':prenom', $this->prenom);
@@ -80,33 +85,43 @@ class User {
             $stmt->bindParam(':matricule', $this->matricule);
             $stmt->bindParam(':mot_passe', $this->mot_de_passe);
             $stmt->bindParam(':date_embauche', $this->date_embauche);
+            
 
+            // Exécutez la requête
             $stmt->execute();
-            $userId = $db->lastInsertId(); // Récupérer l'ID du nouvel utilisateur
+            $this->id = $db->lastInsertId(); // Récupérer l'ID du nouvel utilisateur
+            
+            // Génération du matricule après l'insertion
+            $this->matricule = $this->generateMatricule();
+
+            // Mise à jour du matricule dans la base de données
+            $sqlUpdate = "UPDATE users SET matricule = :matricule WHERE id = :id";
+            $stmtUpdate = $db->prepare($sqlUpdate);
+            $stmtUpdate->bindParam(':matricule', $this->matricule);
+            $stmtUpdate->bindParam(':id', $this->id);
+            $stmtUpdate->execute();
 
             // Enregistrement supplémentaire pour les professeurs
             if ($this->role_id == self::ROLE_PROFESSEUR) {
-                if (count($this->matieres) > 2) {
-                    throw new Exception("Un professeur ne peut enregistrer que deux matières.");
-                }
-
-                if (count(array_unique($this->matieres)) < count($this->matieres)) {
-                    throw new Exception("Les matières ne doivent pas être identiques.");
-                }
-
-                $this->saveProfessor($userId);
+                $this->saveProfessor($this->id);
             }
 
             // Enregistrement supplémentaire pour les enseignants
             if ($this->role_id == self::ROLE_ENSEIGNANT) {
-                $this->saveTeacher($userId);
+                $this->saveTeacher($this->id);
             }
 
             $db->commit(); // Valider la transaction
+            return true; // Retourner true en cas de succès
         } catch (Exception $e) {
             $db->rollBack(); // Annuler la transaction en cas d'erreur
             throw $e; // Relancer l'exception pour traitement
         }
+    }
+
+    public function generateMatricule() {
+        // Générer le matricule 
+        return 'RA' . $this->role_id . ($this->id * 2);
     }
 
     public static function exists($email) {
@@ -117,18 +132,25 @@ class User {
         $stmt->execute();
         return $stmt->fetchColumn() > 0;
     }
+    
 
     public static function validate($nom, $prenom, $date_naissance, $email, $telephone, $role_id, $mot_de_passe = null) {
+        if (empty($nom) || empty($prenom) || empty($date_naissance) || empty($telephone)) {
+            return "Tous les champs doivent être remplis.";
+        }
+    
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return "L'adresse email est invalide.";
         }
 
-        if ($role_id <= 5 && empty($mot_de_passe)) {
-            return "Le mot de passe est requis pour ce rôle.";
+        if (($role_id == '1' || $role_id == '2' || $role_id == '3'|| $role_id == '4' || $role_id == '5') && empty($mot_de_passe)){
+            return "Le mot de passe est requis";
         }
 
+    
         return true; // Validation réussie
     }
+    
 
     private function saveProfessor($userId) {
         $db = Database::getConnection();
@@ -138,27 +160,38 @@ class User {
         $stmt = $db->prepare($query);
         $stmt->bindParam(':user_id', $userId);
         $stmt->execute();
-        
+
         $professeurId = $db->lastInsertId(); // Récupérer l'ID du professeur
         
         // Insertion des matières associées
         if (!empty($this->matieres)) {
             foreach ($this->matieres as $matiere) {
                 $matiereId = $this->getMatiereId($matiere);
+                if ($matiereId === null) {
+                    $this->saveMatiere($matiere); // Insérer la matière
+                    $matiereId = $this->getMatiereId($matiere); // Récupérer l'ID de la matière
+                }
                 $this->saveProfessorMatiere($professeurId, $matiereId); // Lier le professeur à ses matières
             }
         }
     }
     
+    
     private function saveMatiere($matiere) {
         $db = Database::getConnection();
         
-        // Insertion des matières dans la table matieres
-        $query = "INSERT INTO matieres (nom_matieres) VALUES (:nom_matieres)";
-        $stmt = $db->prepare($query);
-        $stmt->bindParam(':nom_matieres', $matiere);
-        $stmt->execute();
+        try {
+            // Insertion des matières dans la table matieres
+            $query = "INSERT INTO matieres (nom_matieres) VALUES (:nom_matieres)";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(':nom_matieres', $matiere);
+            $stmt->execute();
+        } catch (Exception $e) {
+            // Enregistrer l'erreur ou la relancer
+            throw new Exception("Erreur lors de l'enregistrement de la matière: " . $e->getMessage());
+        }
     }
+    
 
     private function saveTeacher($userId) {
         $db = Database::getConnection();
@@ -192,13 +225,7 @@ class User {
         $stmt->execute();
         $result = $stmt->fetch();
     
-        if ($result) {
-            return $result['id']; // Renvoyer l'ID de la matière existante
-        } else {
-            // Si la matière n'existe pas, l'insérer et renvoyer son ID
-            $this->saveMatiere($matiere);
-            return $db->lastInsertId(); // Renvoyer l'ID de la nouvelle matière
-        }
+        return $result ? $result['id'] : null;
     }
 }
 ?>
