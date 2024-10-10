@@ -1,4 +1,8 @@
 <?php
+
+session_start(); // Démarrer la session si ce n'est pas déjà fait
+$oldData = isset($_SESSION['old_data']) ? $_SESSION['old_data'] : [];
+
 // Assurez-vous que $users est défini et est un tableau
 if (!isset($users) || !is_array($users)) {
     $users = [];
@@ -115,27 +119,27 @@ $employes = 60;
                 <form class="row gy-3 needs-validation" id="myForm" method="POST" action="../../Controllers/employe.php">
                     <div class="col-md-6">
                         <label for="name" class="form-label">Nom</label>
-                        <input type="text" name="nom" class="form-control" id="name" autocomplete="Nom-de-famille">
+                        <input type="text" name="nom" class="form-control" id="name" autocomplete="Nom-de-famille" value="<?php echo isset($oldData['nom']) ? htmlspecialchars($oldData['nom']) : ''; ?>">
                         <span class="error-message" id="error-name"></span>
                     </div>
                     <div class="col-md-6">
                         <label for="prenom" class="form-label">Prénom</label>
-                        <input type="text" name="prenom" class="form-control" id="prenom" autocomplete="Prenom">
+                        <input type="text" name="prenom" class="form-control" id="prenom" autocomplete="Prenom" value="<?php echo isset($oldData['prenom']) ? htmlspecialchars($oldData['prenom']) : ''; ?>">
                         <span class="error-message" id="error-prenom"></span>
                     </div>
                     <div class="col-md-6">
                         <label for="date" class="form-label">Date de naissance</label>
-                        <input type="date" name="date_naissance" class="form-control" id="date" >
+                        <input type="date" name="date_naissance" class="form-control" id="date" value="<?php echo isset($oldData['date_naissance']) ? htmlspecialchars($oldData['date_naissance']) : ''; ?>">
                         <span class="error-message" id="error-date"></span>
                     </div>
                     <div class="col-md-6">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" id="email" autocomplete="Adresse-mail">
+                        <input type="email" name="email" class="form-control" id="email" autocomplete="Adresse-mail" value="<?php echo isset($oldData['email']) ? htmlspecialchars($oldData['email']) : ''; ?>">
                         <span class="error-message" id="error-email"></span>
                     </div>
                     <div class="col-md-6">
                         <label for="phone" class="form-label">Téléphone</label>
-                        <input type="tel" name="telephone" class="form-control" id="phone" autocomplete="tel">
+                        <input type="tel" name="telephone" class="form-control" id="phone" autocomplete="tel" value="<?php echo isset($oldData['telephone']) ? htmlspecialchars($oldData['telephone']) : ''; ?>">
                         <span class="error-message" id="error-phone"></span>
                     </div>
                     <div class="col-md-6">
@@ -156,7 +160,7 @@ $employes = 60;
                     <div id="mot_de_passe_section" class="col-md-6" style="display: none;">
                         <label for="password" class="form-label">Mot de passe</label>
                         <div class="input-group">
-                        <input type="password" name="mot_de_passe" class="form-control" id="password" autocomplete="Mot-de-passe">
+                        <input type="password" name="mot_de_passe" class="form-control" id="password" autocomplete="Mot-de-passe" value="<?php echo isset($oldData['mot_de_passe']) ? htmlspecialchars($oldData['mot_de_passe']) : ''; ?>">
                         <div class="input-group-append">
                             <span class="input-group-text" id="togglePassword">
                                 <i class="fas fa-eye"></i>
@@ -184,6 +188,7 @@ $employes = 60;
                                 <div class="mb-3">
                                     <label for="matiere2" class="form-label">Matière 2</label>
                                     <select class="form-select" id="matiere2" name="matiere2">
+                                    <option selected disabled>La seconde matière est facultatif</option>
                                         <option value="Maths">Maths</option>
                                         <option value="PC">PC</option>
                                         <option value="SVT">SVT</option>
@@ -212,9 +217,13 @@ $employes = 60;
                     </div>
                     <div class="col-12 text-center">
                         <button class="btn btn-success" type="submit">Enregistrer</button>
-                        <a href="/../La_reussite_academy-main/Views/Eleve/userListView.php" class="btn btn-danger mr-2">Retour</a>
+                        <a href="/../La_reussite_academy-main/index.php" class="btn btn-danger mr-2">Retour</a>
                     </div>
                 </form>
+                <?php
+// Après avoir affiché le formulaire, nettoyer les anciennes données de la session si vous ne voulez pas qu'elles persistent
+unset($_SESSION['old_data']);
+?>
             </div>
         </div>
     </div>
@@ -275,108 +284,104 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     document.getElementById("myForm").addEventListener("submit", function(event) {
     // Empêche la soumission par défaut du formulaire
-    event.preventDefault();
+   
+
+    // Récupère les valeurs des champs et les messages d'erreur
+    const fields = {
+        name: document.getElementById("name"),
+        email: document.getElementById("email"),
+        firstname: document.getElementById("prenom"),
+        phone: document.getElementById("phone"),
+        role: document.getElementById("role"),
+        password: document.getElementById("password"),
+        date: document.getElementById("date"),
+        matiere1: document.getElementById("matiere1"),
+        matiere2: document.getElementById("matiere2")
+    };
     
+    const errors = {
+        name: document.getElementById("error-name"),
+        email: document.getElementById("error-email"),
+        firstname: document.getElementById("error-prenom"),
+        phone: document.getElementById("error-phone"),
+        role: document.getElementById("error-role"),
+        password: document.getElementById("error-password"),
+        date: document.getElementById("error-date"),
+        matiere2: document.getElementById("error-matiere2")
+    };
+
     // Réinitialise les messages d'erreur
-    document.getElementById("error-name").textContent = "";
-    document.getElementById("error-email").textContent = "";
-    document.getElementById("error-prenom").textContent = "";
-    document.getElementById("error-phone").textContent = "";
-    document.getElementById("error-role").textContent = "";
-    document.getElementById("error-password").textContent = "";
-    document.getElementById("error-date").textContent = "";
-    document.getElementById("error-matiere2").textContent = "";
-    
-    // Récupère les valeurs des champs
-    let name = document.getElementById("name").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let firstname = document.getElementById("prenom").value.trim();
-    let phone = document.getElementById("phone").value.trim();
-    let role = document.getElementById("role").value;
-    let password = document.getElementById("password").value;
-    let date = document.getElementById("date").value;
-    let matiere1 = document.getElementById("matiere1").value;
-    let matiere2 = document.getElementById("matiere2").value;
-    
-    // Initialise un booléen pour suivre les erreurs
+    Object.values(errors).forEach(error => error.textContent = "");
+
     let hasError = false;
+    const currentDate = new Date();
+    const birthDate = new Date(fields.date.value);
+    const maxDate = new Date("2006-01-31");
 
-    let currentDate = new Date();
-    let birthDate = new Date(date);
-    let maxDate = new Date("2006-01-31");
-
+    // Validation des champs
     if (birthDate > maxDate) {
-        document.getElementById("error-date").textContent = "La date de naissance ne doit pas être supérieure au 31 janvier 2006.";
+        errors.date.textContent = "La date de naissance ne doit pas dépasser le 31 janvier 2006.";
         hasError = true;
     }
 
-    if(matiere1 === matiere2){
-        document.getElementById("error-matiere2").textContent = "Veuillez choisir deux matieres differentes";
+    if (fields.role.value === '3'){
+    if (fields.matiere1.value === fields.matiere2.value) {
+        errors.matiere2.textContent = "Veuillez choisir deux matières différentes.";
+        hasError = true;
+    }
+    }
+
+    if (!fields.name.value.trim()) {
+        errors.name.textContent = "Le nom est requis.";
         hasError = true;
     }
 
-    // Validation du nom
-    if (name === "") {
-        document.getElementById("error-name").textContent = "Le nom est requis.";
-        hasError = true;
-    }
-    if (firstname === "") {
-        document.getElementById("error-prenom").textContent = "Le prenom est requis.";
+    if (!fields.firstname.value.trim()) {
+        errors.firstname.textContent = "Le prénom est requis.";
         hasError = true;
     }
 
-    if (phone === "") {
-        document.getElementById("error-phone").textContent = "Le numero de telephone est requis.";
+    if (!fields.phone.value.trim() || fields.phone.value < 700000000 || fields.phone.value > 789999999) {
+        errors.phone.textContent = "Numéro de téléphone non valide.";
         hasError = true;
     }
 
-    if (role === "") {
-        document.getElementById("error-role").textContent = "Le role est requis.";
+    if (!fields.role.value.trim()) {
+        errors.role.textContent = "Le rôle est requis.";
         hasError = true;
     }
 
-    if (role == '1' || role == '2' || role == '3'|| role == '4' || role == '5'){
-    if (password === "") {
-        document.getElementById("error-password").textContent = "Le mot de passe est requis.";
-        hasError = true;
-    }
-}
-
-    if(phone > 789999999 || phone < 700000000){
-        document.getElementById("error-phone").textContent = "Numero de telephone non valide";
-        hasError = true;
-    }
-    
-    if (date === "") {
-        document.getElementById("error-date").textContent = "La date est requis.";
+    if (['1', '2', '3', '4', '5'].includes(fields.role.value) && !fields.password.value.trim()) {
+        errors.password.textContent = "Le mot de passe est requis.";
         hasError = true;
     }
 
-
-
-
-
-
-    // Validation de l'email
-    if (email === "") {
-        document.getElementById("error-email").textContent = "L'email est requis.";
-        hasError = true;
-    } else if (!validateEmail(email)) {
-        document.getElementById("error-email").textContent = "Veuillez entrer un email valide.";
+    if (!fields.date.value.trim()) {
+        errors.date.textContent = "La date est requise.";
         hasError = true;
     }
 
-    // Si aucune erreur, on soumet le formulaire
+    if (!fields.email.value.trim() || !validateEmail(fields.email.value)) {
+        errors.email.textContent = "Veuillez entrer un email valide.";
+        hasError = true;
+    }
+
+    if(hasError){
+        event.preventDefault();
+    }
+
+    // Si aucune erreur, soumission du formulaire
     if (!hasError) {
-        this.submit();
+        event.target.submit();
     }
 });
 
-// Fonction pour valider un email
+// Fonction de validation d'email
 function validateEmail(email) {
-    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
 }
+
 
 </script>
 </body>
