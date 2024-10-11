@@ -199,6 +199,10 @@ $employes = 60;
                                         <option value="Anglais">Anglais</option>
                                         <option value="Français">Français</option>
                                         <option value="HG">Histoire-Géographie</option>
+                                        <option value="EC">Education Civique</option>
+                                        <option value="EPS">EPS</option>
+                                        <option value="Arabe">Arabe</option>
+                                        <option value="Espagnole">Espagnole</option>
                                     </select>
                                     <span class="error-message" id="error-matiere1"></span>
                                 </div>
@@ -213,6 +217,10 @@ $employes = 60;
                                         <option value="Anglais">Anglais</option>
                                         <option value="Français">Français</option>
                                         <option value="HG">Histoire-Géographie</option>
+                                        <option value="EC">Education Civique</option>
+                                        <option value="EPS">EPS</option>
+                                        <option value="Arabe">Arabe</option>
+                                        <option value="Espagnole">Espagnole</option>
                                     </select>
                                     <span class="error-message" id="error-matiere2"></span>
                                 </div>
