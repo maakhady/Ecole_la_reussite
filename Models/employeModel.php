@@ -132,7 +132,14 @@ class User {
         $stmt->execute();
         return $stmt->fetchColumn() > 0;
     }
-    
+    public static function exisTtel($telephone) {
+        $db = Database::getConnection();
+        $query = "SELECT COUNT(*) FROM users WHERE telephone = :telephone";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':telephone', $telephone);
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0;
+    }
 
     public static function validate($nom, $prenom, $date_naissance, $email, $telephone, $role_id, $mot_de_passe = null) {
         if (empty($nom) || empty($prenom) || empty($date_naissance) || empty($telephone)) {

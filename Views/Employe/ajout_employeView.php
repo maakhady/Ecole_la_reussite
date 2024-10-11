@@ -136,11 +136,27 @@ $employes = 60;
                         <label for="email" class="form-label">Email</label>
                         <input type="email" name="email" class="form-control" id="email" autocomplete="Adresse-mail" value="<?php echo isset($oldData['email']) ? htmlspecialchars($oldData['email']) : ''; ?>">
                         <span class="error-message" id="error-email"></span>
+                        <span class= "error-message" id="mail-doublon">
+                        <?php
+                            if (isset($_SESSION['exist_mail']) && $_SESSION['exist_mail'] === true) {
+                                echo 'Cet email existe déjà.';
+                                unset($_SESSION['exist_mail']);
+                            }
+                        ?>
+                        </span>
                     </div>
                     <div class="col-md-6">
                         <label for="phone" class="form-label">Téléphone</label>
                         <input type="tel" name="telephone" class="form-control" id="phone" autocomplete="tel" value="<?php echo isset($oldData['telephone']) ? htmlspecialchars($oldData['telephone']) : ''; ?>">
                         <span class="error-message" id="error-phone"></span>
+                        <span class= "error-message" id="tel-doublon">
+                        <?php
+                            if (isset($_SESSION['exist_telephone']) && $_SESSION['exist_telephone'] === true) {
+                                echo 'Ce numéro de téléphone existe déjà.';
+                                unset($_SESSION['exist_telephone']);
+                            }
+                        ?>
+                    </span>
                     </div>
                     <div class="col-md-6">
                         <label for="role" class="form-label">Rôle</label>
@@ -175,7 +191,8 @@ $employes = 60;
                             <div id="matiere-fields">
                                 <div class="mb-3">
                                     <label for="matiere1" class="form-label">Matière 1</label>
-                                    <select class="form-select" id="matiere1" name="matiere1">
+                                    <select class="form-select" id="matiere1" name="matiere1" aria-label="Choisissez une matière">
+                                    <option selected disabled>Choisissez une matière</option>
                                         <option value="Maths">Maths</option>
                                         <option value="PC">PC</option>
                                         <option value="SVT">SVT</option>
@@ -183,6 +200,7 @@ $employes = 60;
                                         <option value="Français">Français</option>
                                         <option value="HG">Histoire-Géographie</option>
                                     </select>
+                                    <span class="error-message" id="error-matiere1"></span>
                                 </div>
 
                                 <div class="mb-3">
@@ -205,6 +223,7 @@ $employes = 60;
                                 <div class="mb-3">
                                     <label for="classe" class="form-label">Classe</label>
                                     <select class="form-select" id="classe" name="classe">
+                                    <option selected disabled>Choisissez une classe</option>
                                         <option value="CI">CI</option>
                                         <option value="CP">CP</option>
                                         <option value="CE1">CE1</option>
@@ -212,6 +231,7 @@ $employes = 60;
                                         <option value="CM1">CM1</option>
                                         <option value="CM2">CM2</option>
                                     </select>
+                                    <span class="error-message" id="error-classe"></span>
                                 </div>
                             </div>
                     </div>
@@ -221,168 +241,15 @@ $employes = 60;
                     </div>
                 </form>
                 <?php
-// Après avoir affiché le formulaire, nettoyer les anciennes données de la session si vous ne voulez pas qu'elles persistent
-unset($_SESSION['old_data']);
-?>
+                // Après avoir affiché le formulaire, nettoyer les anciennes données de la session si vous ne voulez pas qu'elles persistent
+                    unset($_SESSION['old_data']);
+                ?>
             </div>
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.getElementById('menuToggle').addEventListener('click', function() {
-        var sidebar = document.getElementById('sidebar');
-        sidebar.classList.toggle('active'); // Basculer la classe active
-    });
-
-    // Écouteur d'événements pour le changement du mot de passe
-document.addEventListener("DOMContentLoaded", function () {
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordField = document.getElementById('password');
-    const toggleIcon = document.getElementById('togglePasswordIcon');
-    
-    togglePassword.addEventListener("click", function () {
-        // Bascule le type de l'input entre 'password' et 'text'
-        if (passwordField.type === "password") {
-            passwordField.type = "text";
-            toggleIcon.classList.remove('fa-eye');
-            toggleIcon.classList.add('fa-eye-slash');
-        } else {
-            passwordField.type = "password";
-            toggleIcon.classList.remove('fa-eye-slash');
-            toggleIcon.classList.add('fa-eye');
-        }
-    });
-});
-
-
-
-    document.getElementById('role').addEventListener('change', function() {
-        var matiereFields = document.getElementById("matiere-fields");
-        var classeFields = document.getElementById("classe-fields");
-
-        var role = this.value;
-        var passwordSection = document.getElementById('mot_de_passe_section');
-        var teacherSection = document.getElementById('teacher_section');
-        if (role == '1' || role == '2' || role == '3'|| role == '4' || role == '5') {
-            passwordSection.style.display = 'block';
-        } else {
-            passwordSection.style.display = 'none';
-        }
-        if(role == '3'){
-            teacherSection.style.display = 'block';
-            matiereFields.style.display = 'block';
-            classeFields.style.display = 'none';
-        } else if(role == '4'){
-            teacherSection.style.display = 'block';
-            matiereFields.style.display = 'none';
-            classeFields.style.display = 'block';
-        } else {
-            teacherSection.style.display = 'none';
-        }
-    });
-    document.getElementById("myForm").addEventListener("submit", function(event) {
-    // Empêche la soumission par défaut du formulaire
-   
-
-    // Récupère les valeurs des champs et les messages d'erreur
-    const fields = {
-        name: document.getElementById("name"),
-        email: document.getElementById("email"),
-        firstname: document.getElementById("prenom"),
-        phone: document.getElementById("phone"),
-        role: document.getElementById("role"),
-        password: document.getElementById("password"),
-        date: document.getElementById("date"),
-        matiere1: document.getElementById("matiere1"),
-        matiere2: document.getElementById("matiere2")
-    };
-    
-    const errors = {
-        name: document.getElementById("error-name"),
-        email: document.getElementById("error-email"),
-        firstname: document.getElementById("error-prenom"),
-        phone: document.getElementById("error-phone"),
-        role: document.getElementById("error-role"),
-        password: document.getElementById("error-password"),
-        date: document.getElementById("error-date"),
-        matiere2: document.getElementById("error-matiere2")
-    };
-
-    // Réinitialise les messages d'erreur
-    Object.values(errors).forEach(error => error.textContent = "");
-
-    let hasError = false;
-    const currentDate = new Date();
-    const birthDate = new Date(fields.date.value);
-    const maxDate = new Date("2006-01-31");
-
-    // Validation des champs
-    if (birthDate > maxDate) {
-        errors.date.textContent = "La date de naissance ne doit pas dépasser le 31 janvier 2006.";
-        hasError = true;
-    }
-
-    if (fields.role.value === '3'){
-    if (fields.matiere1.value === fields.matiere2.value) {
-        errors.matiere2.textContent = "Veuillez choisir deux matières différentes.";
-        hasError = true;
-    }
-    }
-
-    if (!fields.name.value.trim()) {
-        errors.name.textContent = "Le nom est requis.";
-        hasError = true;
-    }
-
-    if (!fields.firstname.value.trim()) {
-        errors.firstname.textContent = "Le prénom est requis.";
-        hasError = true;
-    }
-
-    if (!fields.phone.value.trim() || fields.phone.value < 700000000 || fields.phone.value > 789999999) {
-        errors.phone.textContent = "Numéro de téléphone non valide.";
-        hasError = true;
-    }
-
-    if (!fields.role.value.trim()) {
-        errors.role.textContent = "Le rôle est requis.";
-        hasError = true;
-    }
-
-    if (['1', '2', '3', '4', '5'].includes(fields.role.value) && !fields.password.value.trim()) {
-        errors.password.textContent = "Le mot de passe est requis.";
-        hasError = true;
-    }
-
-    if (!fields.date.value.trim()) {
-        errors.date.textContent = "La date est requise.";
-        hasError = true;
-    }
-
-    if (!fields.email.value.trim() || !validateEmail(fields.email.value)) {
-        errors.email.textContent = "Veuillez entrer un email valide.";
-        hasError = true;
-    }
-
-    if(hasError){
-        event.preventDefault();
-    }
-
-    // Si aucune erreur, soumission du formulaire
-    if (!hasError) {
-        event.target.submit();
-    }
-});
-
-// Fonction de validation d'email
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLowerCase());
-}
-
-
-</script>
+<script src="../../assets/javasc/signupEmploye.js" ></script>
 </body>
 </html>

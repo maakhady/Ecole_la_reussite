@@ -17,10 +17,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $validationResult = User::validate($nom, $prenom, $date_naissance_str, $email, $telephone, $role_id, $mot_de_passe);
 
         if ($validationResult === true) {
-            if (User::exists($email)) {
+            if (User::exists($email) || User::exisTtel($telephone)) {
+                
+                $_SESSION['exist_mail'] = User::exists($email);
+                $_SESSION['exist_telephone'] = User::exisTtel($telephone);
+
                 // Redirection en cas d'existence de l'email
                 $_SESSION['old_data'] = $_POST;
-                header('Location: ../Views/Employe/ajout_employeView.php?error=exists');
+                header('Location: ../Views/Employe/ajout_employeView.php');
                 exit;
             } else {
                 // Récupération des matières si le rôle est professeur
