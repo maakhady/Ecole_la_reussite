@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+.receipt {
+    width: 800px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+.header img {
+    width: 80px;
+}
+.header .title {
+    text-align: center;
+    flex-grow: 1;
+}
+.header .title h1 {
+    margin: 0;
+    color: #00b300;
+}
+.header .print-button {
+    background-color: #00b300;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.info, .payment-details, .footer {
+    margin-bottom: 20px;
+}
+.info .row, .payment-details .row {
+    display: flex;
+    justify-content: space-between;
+}
+.info .row div, .payment-details .row div {
+    width: 48%;
+}
+.payment-details table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.payment-details table, .payment-details th, .payment-details td {
+    border: 1px solid #ddd;
+}
+.payment-details th, .payment-details td {
+    padding: 10px;
+    text-align: left;
+}
+.payment-details th {
+    background-color: #f5f5f5;
+}
+.total {
+    text-align: right;
+    font-weight: bold;
+}
+.amount-in-words {
+    margin-top: 10px;
+    font-weight: bold;
+}
+.remarks {
+    margin-top: 20px;
+    font-style: italic;
+}
+.footer {
+    text-align: center;
+    color: #00b300;
+    font-weight: bold;
+}
+.stamp {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 100px;
+    opacity: 0.5;
+}

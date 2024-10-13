@@ -1,0 +1,58 @@
+body{
+    height: 100vh;
+}
+.container {
+    background-color: #c9c9c9c9;
+    border-radius: 15px;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    /*margin-left: 100px;    */    
+    width: 950px;
+    height: 850px;
+    margin-top: 100px;
+    
+}
+.button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+   padding-top: 50px;
+    gap: 300px;
+}
+button {
+    width: 200px;
+    height: 70px;
+    border-radius: 5px;
+    
+}
+.btn1{
+    background-color: #FF914D;
+    border: #FF914D;
+    
+}
+.btn{
+    background-color: #18BE78;
+    border: #18BE78;
+
+}
+.pt {
+    padding-top: 100px;
+}
+h1{
+    font-weight: bold;
+    padding-top: 50px;
+}
+/*---------------------------------- PAGE DE LISTE DES ETUDIANTS---------------------------------------------------------------*/
+.table{
+    margin-top: 100px;
+}
+
+/*----------------------------------css importe-----------------------------------------------------------------------*/
+.menu-button {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+    background-color: #18BE78;
+}

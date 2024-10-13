@@ -64,3 +64,56 @@ function validateForm(event) {
 document.getElementById("email").addEventListener("input",function()  {
     this.value=this.value.toLowerCase();
 });
+/********************************************************LA FONCTION DE RECHERCHE******************************************************************** */
+function filterTable() {
+    // Récupérer la valeur de l'input de recherche
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const table = document.getElementById('studentsTable');
+    const rows = table.getElementsByTagName('tr');
+
+    // Boucle à travers toutes les lignes du tableau (commençant à 1 pour ignorer l'en-tête)
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let found = false;
+
+        // Vérifiez si le contenu de chaque cellule correspond à la recherche
+        for (let j = 0; j < cells.length; j++) {
+            if (cells[j].innerText.toLowerCase().includes(searchInput)) {
+                found = true;
+                break;
+            }
+        }
+
+        // Affiche ou cache la ligne selon le résultat de la recherche
+        rows[i].style.display = found ? '' : 'none';
+    }
+}
+/****************************************************Le pop up du recu*************************************************************************** */function openRecuPopup(eleveDetails, paiementDetails) {
+    // Créer le contenu HTML pour le reçu
+    function openRecuPopup(eleveDetails, paiementDetails) {
+        // Créer le contenu HTML pour le reçu
+        const contenu = `
+            <div class="popup">
+                <div class="popup-content">
+                    <h2>Reçu de Paiement</h2>
+                    <p><strong>Nom de l'élève:</strong> ${eleveDetails.nom}</p>
+                    <p><strong>Matricule:</strong> ${eleveDetails.matricule}</p>
+                    <p><strong>Classe:</strong> ${eleveDetails.classe}</p>
+                    <p><strong>Montant payé:</strong> ${paiementDetails.montant} FCFA</p>
+                    <p><strong>Mode de paiement:</strong> ${paiementDetails.mode_paiement}</p>
+                    <button onclick="closePopup()">Fermer</button>
+                </div>
+            </div>
+        `;
+    
+        // Ajouter le contenu au body
+        document.body.insertAdjacentHTML('beforeend', contenu);
+    }
+    
+    function closePopup() {
+        const popup = document.querySelector('.popup');
+        if (popup) {
+            popup.remove();
+        }
+    }
+ }    

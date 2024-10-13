@@ -22,7 +22,7 @@ class Database {
             echo 'Erreur de connexion : ' . $e->getMessage();
         }
 
-        return $this->conn;
+        return $this->conn; // Retourne la connexion
     }
 }
 ?>
