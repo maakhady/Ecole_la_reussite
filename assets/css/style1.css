@@ -1,5 +1,6 @@
 body {
     font-family: Arial, sans-serif;
+    
 }
 
 .sidebar {
@@ -77,4 +78,9 @@ input.form-control {
 }
 .btn-danger {
     background-color: #FF914D;
+}
+
+.btn[disabled] {
+    opacity: 0.65;
+    pointer-events: none;
 }

@@ -1,6 +1,6 @@
 <?php
 require_once 'Config/database.php';
-require_once 'Controllers/eleveController.php';
+require_once 'Controllers/EleveController.php';
 
 
 session_start();

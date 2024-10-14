@@ -99,7 +99,7 @@ $role= "Directeur";
                 <div class="row mb-3">
                     <div class="mb-3 col-md-6">
                         <label for="date_naissance" class="form-label">Date de Naissance</label>
-                        <input type="date" class="form-control" id="date_naissance" name="date_naissance" min="2005-01-01" max="2017-01-01" >
+                        <input type="date" class="form-control" id="date_naissance" name="date_naissance" min="2005-01-01" max="2019-01-01" >
                         <div id="dateNaissanceError" class="error-message"></div>
                     </div>
 
