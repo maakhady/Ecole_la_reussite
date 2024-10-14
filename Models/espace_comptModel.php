@@ -20,7 +20,7 @@ class ComptModel {
         try {
             // Jointure entre `eleves` et `fraisinscription` pour récupérer les montants
             $stmt = $this->conn->prepare("
-                SELECT eleves.id, eleves.nom, eleves.prenom, eleves.matricule, eleves.classe, fraisinscription.montant 
+                SELECT eleves.id, eleves.nom, eleves.prenom, eleves.matricule, eleves.classe, fraisinscription.montant, fraisinscription.mois  
                 FROM eleves
                 LEFT JOIN fraisinscription ON eleves.id = fraisinscription.id
             ");

@@ -56,14 +56,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="/La_reussite_academy-main/assets/css/style.css"> 
-   <script href="/La_reussite_academy-main/assets/javasc/stylefraisins.js"></script>
+    <script src="/La_reussite_academy-main/assets/javasc/stylefraisins.js"></script>
+
    
     <style>
       .btn[disabled] {
-    opacity: 0.65;
+    opacity: 0.50;
     pointer-events: none;
 }
 
+.btn.disabled {
+    opacity: 0.50;
+    pointer-events: none; /* Désactive le clic sur le bouton */
+}
     </style>
     
 </head>
@@ -105,14 +110,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                
             </div>
+            
 
+                    <!--la barre de rechercher-->
+                    <div class="d-flex justify-content-between mb-4">
+                <input type="text" class="form-control w-25" id="searchInput" placeholder="Rechercher " onkeyup="filterTable()">
+            </div> 
             
             <!-- Section liste des élèves -->
              
             <h5 class="text-center mb-4">Liste des élèves</h5>
             <div class="bg-white p-4 rounded shadow">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped"  id="studentsTable">
                     <thead>
                         <tr>
                             <th >Nom</th>
@@ -120,6 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <th >Matricule</th>
                             <th >Classe</th>
                             <th >Montant</th>
+                            <th >Mois conserner</th>
                              <th>Status</th>
                             <th >Actions</th>
                         </tr>
@@ -130,29 +141,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $eleves = $controller->afficherEleves(); // Récupérer les élèves
 
     foreach ($eleves as $eleve) {
+      $matricule = $eleve['matricule']; // Récupérer le matricule
+
+      
 
       $statut_paiement = $controller->obtenirStatutPaiement($eleve['id']);
 
-      // Définir les classes CSS en fonction du statut
-      $classe_statut = ($statut_paiement === 'Payé') ? 'text-success' : 'text-danger';
-      
-// Si l'élève a déjà payé, désactiver le bouton
-      $disabled = ($statut_paiement === 'Payé') ? 'disabled' : '';
+   
+    // Si le mois n'est pas défini et que le statut est "Payé", on affiche "Frais d'inscription"
+    $mois = isset($eleve['mois']) && !empty($eleve['mois']) ? htmlspecialchars($eleve['mois']) : (($statut_paiement === 'Payé') ? 'Frais d\'inscription' : '----');
 
-      // Vérification et affichage du montant
-      $montant = isset($eleve['montant']) ? $eleve['montant'] : '----';
+     // Vérification et affichage du montant
+$montant = isset($eleve['montant']) ? $eleve['montant'] : '----';
 
-        echo "<tr>
-                <td>" . htmlspecialchars($eleve['nom']) . "</td>
-                <td>" . htmlspecialchars($eleve['prenom']) . "</td>
-                <td>" . htmlspecialchars($eleve['matricule']) . "</td>
-                <td>" . htmlspecialchars($eleve['classe']) . "</td>
-                 <td>" . htmlspecialchars($montant) . "</td> <!-- Affichage du montant -->
-                 <td>" . htmlspecialchars($statut_paiement) . "</td>
 
-                <td>
-                    <a href='#' class='btn btn-xm btn-success inscrire-btn"
-            . ($statut_paiement === 'Payé' ? ' disabled' : '') . "' 
+echo "<tr>
+        <td>" . htmlspecialchars($eleve['nom']) . "</td>
+        <td>" . htmlspecialchars($eleve['prenom']) . "</td>
+        <td>" . htmlspecialchars($eleve['matricule']) . "</td>
+        <td>" . htmlspecialchars($eleve['classe']) . "</td>
+        <td>" . htmlspecialchars($montant) . "</td> <!-- Affichage du montant -->
+        <td>" . htmlspecialchars($mois) . "</td>
+        <td>" . htmlspecialchars($statut_paiement) . "</td>
+        <td>";
+
+// Si l'élève n'a pas encore payé, afficher uniquement le bouton "Inscrire"
+if ($statut_paiement !== 'Payé') {
+    echo "<a href='#' class='btn btn-sm btn-success  inscrire-btn' 
             data-bs-toggle='modal'
             data-bs-target='#inscriptionModal'
             data-id='" . htmlspecialchars($eleve['id']) . "' 
@@ -161,33 +176,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             data-matricule='" . htmlspecialchars($eleve['matricule']) . "' 
             data-classe='" . htmlspecialchars($eleve['classe']) . "'>
             Inscrire
-            </a>
-              
-            <form method='POST'  style='display:inline;'>
-                <input type='hidden' name='action' value='supprimer'>
-                <input type='hidden' name='id' value='" . htmlspecialchars($eleve['id']) . "'>
-                <button type='submit' class='btn btn-sm btn-danger' 
-                    onclick=\"return confirm('Êtes-vous sûr de vouloir supprimer les frais pour cet élève ?');\">
-                    Supprimer
-                  </button>
-           </form>
-            
-            
-            </td>
-                
-              
-              </tr>";
+          </a>";
+}
+
+// Si l'élève a payé, afficher uniquement le bouton "Mensualité"
+if ($statut_paiement === 'Payé') {
+    echo "<a href='mensualiteView.php?matricule=" . htmlspecialchars($eleve['matricule']) . "' 
+            class='btn btn-sm btn-success' title='Voir les mensualités'>
+            Mensualité
+          </a>";
+}
+
+echo "</td>
+      <td>
+        <form method='POST' style='display:inline;'>
+            <input type='hidden' name='action' value='supprimer'>
+            <input type='hidden' name='id' value='" . htmlspecialchars($eleve['id']) . "'>
+            <button type='submit' class='btn btn-sm btn-danger' 
+                onclick=\"return confirm('Êtes-vous sûr de vouloir supprimer les frais pour cet élève ?');\">
+                Supprimer
+            </button>
+        </form>
+      </td>
+    </tr>";
+
     }
     ?>
+    
 </tbody>
 
                 </table>
             </div>
-
+            
         </div>
-
+         <!-- bouton pagination  -->
+        <div id="pagination" class="text-center mt-4">   <button> </button></div>
     </div>
 </div>
+
+ 
+
 
 
 
@@ -277,94 +305,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 
-<!-- Modal de confirmation personnalisé -->
-<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmModalLabel">Confirmation de suppression</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p id="modalMessage">Êtes-vous sûr de vouloir supprimer cet élément ?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-        <button type="button" id="confirmDeleteButton" class="btn btn-danger">Confirmer la suppression</button>
-      </div>
-    </div>
-  </div>
-</div>
- 
 
 
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var inscriptionModal = document.getElementById('inscriptionModal');
-    var inscriptionForm = document.getElementById('inscriptionForm');
-
-    // When the modal is shown, fill in the data
-    inscriptionModal.addEventListener('show.bs.modal', function (event) {
-      var button = event.relatedTarget; // Button that triggered the modal
-      var id = button.getAttribute('data-id');
-      var nom = button.getAttribute('data-nom');
-      var prenom = button.getAttribute('data-prenom');
-      var matricule = button.getAttribute('data-matricule');
-      var classe = button.getAttribute('data-classe');
-     
-
-      // Update the modal's form with the student data
-      document.getElementById('id').value = id;
-      document.getElementById('nom').value = nom;
-      document.getElementById('prenom').value = prenom;
-      document.getElementById('matricule').value = matricule;
-      document.getElementById('classe').value = classe;
-      
-     
-//
-
-    // Modal de confirmation de paiement
-    var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-    var confirmationMessage = document.getElementById('confirmationMessage');
-    var confirmPaymentButton = document.getElementById('confirmPaymentButton');
-
-    // Lorsque le formulaire est soumis, montrer la confirmation
-    inscriptionForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Empêche la soumission immédiate du formulaire
-
-        var nom = document.getElementById('nom').value;
-        var montant = document.getElementById('montant').value;
-        var modePaiement = document.getElementById('mode_paiement').value;
-
-        // Vérifier que le montant et le mode de paiement sont remplis avant de montrer le modal
-        if (montant && modePaiement) {
-            confirmationMessage.textContent = "Confirmez-vous le paiement de " + montant + " CFA pour l'élève " + nom + "  " + prenom  + " par " + modePaiement + " ?";
-            confirmationModal.show();
-
-            // Si l'utilisateur confirme, soumettre le formulaire
-            confirmPaymentButton.onclick = function() {
-                inscriptionForm.submit();
-            };
-        } else {
-            alert("Veuillez remplir tous les champs obligatoires.");
-        }
-    });
-});
-
-
-
-
-
-
-
-});
-
-
-
- 
- 
-</script>
 
 
 
@@ -373,5 +316,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </body>
 </html>

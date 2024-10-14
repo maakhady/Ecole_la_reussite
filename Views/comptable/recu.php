@@ -8,6 +8,11 @@ $role= "Comptable";
 require_once '../../Models/espace_comptModel.php';
 require_once '../../Controllers/espace_comptController.php';
 
+
+
+require_once '../../Models/mensualiteModel.php';
+require_once '../../Controllers/mensualiteController.php';
+
 // Connexion à la base de données
 $dsn = "mysql:host=localhost;dbname=ecole_la_reussite;charset=utf8";
 $db = new PDO($dsn, 'root', '');
@@ -260,7 +265,7 @@ if (!empty($id)) {
        Frais de mensualite :
       </td>
       <td>
-      <?= isset($eleve['montant']) ? htmlspecialchars($eleve['montant']) : ' '; ?>
+      <p><strong>Montant payé :</strong> <?php echo htmlspecialchars($montant); ?> CFA</p>
       </td>
      </tr>
      <tr>
