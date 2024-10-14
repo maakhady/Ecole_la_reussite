@@ -27,11 +27,18 @@ class UserController {
             if (!empty($email) && !empty($motDePasse)) {
                 $result = $this->employe->login($email, $motDePasse);
 
-                if ($result === true) {
+                if (is_array($result)) { // Vérifie si le résultat est un tableau (utilisateur)
                     // Authentification réussie
                     session_start();
-                    $_SESSION['user'] = $email; // ou les informations utilisateur
-                    header('Location: ../index.php');
+                    $_SESSION['user'] = $result['email']; // ou les informations utilisateur
+                    $_SESSION['role_id'] = $result['role_id']; // Stocker le rôle de l'utilisateur
+
+                    // Redirection en fonction du rôle
+                    if ($result['role_id'] == 1) {
+                        header('Location: ../Views/comptable/espace_comptView.php'); // Redirection pour les administrateurs
+                    } elseif ($result['role_id'] == 2) {
+                        header('Location: /La_reussite_academy-main/index.php'); // Redirection pour les utilisateurs
+                    }
                     exit();
                 } elseif ($result === 'email_incorrect') {
                     $emailError = "Adresse email incorrect.";

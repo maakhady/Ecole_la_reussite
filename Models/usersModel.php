@@ -1,3 +1,5 @@
+
+
 <?php
 class Users {
     private $conn;
@@ -8,11 +10,10 @@ class Users {
 
     public function login($email, $mot_passe) {
         // Vérifier si l'email est enregistré
-        $query = "SELECT * FROM users WHERE email = :email AND role_id = :role_id";
+        $query = "SELECT * FROM users WHERE email = :email AND (role_id = 1 OR role_id = 2)";
         $stmt = $this->conn->prepare($query);
-        $role_id = 2;
+        
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':role_id', $role_id);
         $stmt->execute();
         $User = $stmt->fetch(PDO::FETCH_ASSOC);
     
@@ -21,13 +22,12 @@ class Users {
             return 'email_incorrect'; // Retournez un message pour indiquer que l'email est incorrect
         }
     
-        // Vérification du mot de passe entre par l utilisateur
+        // Vérification du mot de passe fourni par l'utilisateur
         if (password_verify($mot_passe, $User['mot_passe'])) {
-            return true; // ici le true renvoie au cas ou la Connexion réussie
+            return $User; // Retourner l'utilisateur complet pour récupérer le rôle
         }
     
-        return false; // ici le false renvoie au cas ou la connexion n a pas reussi
+        return 'mot_de_passe_incorrect'; // Message d'erreur pour mot de passe incorrect
     }
-
 }
 ?>
