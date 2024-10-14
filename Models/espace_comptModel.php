@@ -10,17 +10,30 @@ class ComptModel {
         $this->conn = $db; // Assignation de la connexion
     }
 
-    // Méthode pour récupérer tous les élèves
+    
+
+
+
+
+    // Méthode pour récupérer tous les élèves avec leur montant de frais
     public function getAllEleves() {
         try {
-            $stmt = $this->conn->prepare("SELECT id,nom, prenom, matricule, classe, tel_tuteur FROM eleves");
+            // Jointure entre `eleves` et `fraisinscription` pour récupérer les montants
+            $stmt = $this->conn->prepare("
+                SELECT eleves.id, eleves.nom, eleves.prenom, eleves.matricule, eleves.classe, fraisinscription.montant 
+                FROM eleves
+                LEFT JOIN fraisinscription ON eleves.id = fraisinscription.id
+            ");
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Récupère tous les élèves sous forme de tableau associatif
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo "Erreur lors de la récupération des élèves : " . $e->getMessage();
             return [];
         }
     }
+
+
+    
 
     // Méthode pour récupérer un élève par son matricule
     public function getEleveByid($id) {

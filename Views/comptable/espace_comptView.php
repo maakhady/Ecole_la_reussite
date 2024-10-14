@@ -19,22 +19,7 @@ $controller->afficherEleves();
 $id = isset($_GET['frais_id']) ? htmlspecialchars($_GET['frais_id']) : '';
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = [
-        'id' => $_POST['id'],
-        'classe' => $_POST['classe'],
-        'montant' => $_POST['montant'],
-        'mode_paiement' => $_POST['mode_paiement']
-    ];
-
-    // Vérification des données
-    if (empty($data['id']) || empty($data['montant']) || empty($data['mode_paiement'])) {
-        echo "Veuillez remplir tous les champs obligatoires.";
-    } else {
-        $controller->enregistrerFrais($data);
-    }
-}
-
+// Gérer les requêtes POST (Enregistrement ou Suppression)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($_POST['action']) && $_POST['action'] === 'supprimer' && !empty($_POST['id'])) {
       // Supprimer les frais d'inscription
@@ -50,12 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       // Vérification des données
       if (empty($data['id']) || empty($data['montant']) || empty($data['mode_paiement'])) {
-          echo "Veuillez remplir tous les champs obligatoires.";
+          $error_message = "Veuillez remplir tous les champs obligatoires.";
       } else {
           $controller->enregistrerFrais($data);
       }
   }
 }
+
 
 
 ?>
@@ -69,8 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="../assets/css/style1.css"> 
-   <script href="../assets/javasc/stylefraisins.js"></script>
+    <link rel="stylesheet" href="/La_reussite_academy-main/assets/css/style.css"> 
+   <script href="/La_reussite_academy-main/assets/javasc/stylefraisins.js"></script>
    
     <style>
       .btn[disabled] {
@@ -96,9 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div><br>
             <div class="d-grid gap-4">
                 <button class="btn btn-success menu-button"><i class="fas fa-tachometer-alt"></i> Tableau de Bord</button>
-                <button class="btn link btn-success menu-button"><i class="fas fa-chalkboard-teacher"></i> Élèves</button>
+                <a href="/../La_reussite_academy-main/eleves.php"><button class="btn btn-success menu-button"><i class="fas fa-chalkboard-teacher"></i> Élèves</button></a>
                 <button class="btn btn-success menu-button"><i class="fas fa-user"></i>Enseignats</button>
-                <button class="btn link btn-success menu-button"><i class="fas fa-user"></i> Employer</button>          
+                <button class="btn  btn-success menu-button"><i class="fas fa-user"></i> Employer</button>          
                 <button class="btn btn-success menu-button"><i class="fas fa-clipboard-list"></i> Présences</button>
                 <button class="btn btn-success menu-button"><i class="fas fa-dollar-sign"></i> Salaire</button>
                 <button class="btn btn-success menu-button"><i class="fas fa-calendar-alt"></i> Historique</button>
@@ -133,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <th >Prénom</th>
                             <th >Matricule</th>
                             <th >Classe</th>
+                            <th >Montant</th>
                              <th>Status</th>
                             <th >Actions</th>
                         </tr>
@@ -151,11 +138,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       
 // Si l'élève a déjà payé, désactiver le bouton
       $disabled = ($statut_paiement === 'Payé') ? 'disabled' : '';
+
+      // Vérification et affichage du montant
+      $montant = isset($eleve['montant']) ? $eleve['montant'] : '----';
+
         echo "<tr>
                 <td>" . htmlspecialchars($eleve['nom']) . "</td>
                 <td>" . htmlspecialchars($eleve['prenom']) . "</td>
                 <td>" . htmlspecialchars($eleve['matricule']) . "</td>
                 <td>" . htmlspecialchars($eleve['classe']) . "</td>
+                 <td>" . htmlspecialchars($montant) . "</td> <!-- Affichage du montant -->
                  <td>" . htmlspecialchars($statut_paiement) . "</td>
 
                 <td>
@@ -303,7 +295,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   </div>
 </div>
-
+ 
 
 
 

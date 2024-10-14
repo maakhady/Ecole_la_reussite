@@ -200,7 +200,7 @@ if (!empty($id)) {
       <?php echo date('d/m/Y'); ?>
       <br/>
       <strong>
-       Numéro de reçu:
+       
        <strong>
     Numéro de reçu:
     <?php echo isset($_GET['frais_id']) ? htmlspecialchars($_GET['frais_id']) : 'N/A'; ?>
