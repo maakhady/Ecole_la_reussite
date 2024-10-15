@@ -26,10 +26,12 @@ $message ='';
 
 if (isset($_GET['matricule'])) {
     $matricule = $_GET['matricule'];
-   
+ 
 }
 
 ?>
+
+
 
 
 

@@ -18,6 +18,9 @@ class PaiementController {
             $mode_paiement = $_POST['mode_de_paiement'] ?? null;
             $date_inscription = $_POST['date_de_paiement'] ?? null;
             $date_modif = date('Y-m-d H:i:s'); // Mettre à jour la date de modification
+            $nom = $_POST['nom'] ?? null; // Utiliser $_POST au lieu de $_GET
+            $prenom = $_POST['prenom'] ?? null; 
+
 
             // Vérifier que toutes les données sont présentes
             if ($matricule && $mois && $montant && $mode_paiement && $date_inscription) {
@@ -29,7 +32,8 @@ class PaiementController {
                     echo "paiement effectue";
                     // Rediriger vers une page de succès ou afficher un message de succès
                     $message = "Paiement enregistré avec succès!";
-                    header("Location: ../../Views/comptable/recuView.php?matricule="  . "&montant=" . $montant . "&mode_paiement=" . $mode_paiement);
+                    header("Location: ../../Views/comptable/recuView.php?matricule=" . $matricule . "&montant=" . $montant . "&nom=" . $nom . "&prenom=" . $prenom ."&mois=" . $mois . "&mode_paiement=" . $mode_paiement);
+
                     exit();
                 } else {
                     // Afficher un message d'erreur

@@ -64,7 +64,7 @@ $controller->afficherEleves();
                     </div>
                 </div>
             </div>
-
+                    <!--la barre de rechercher-->
             <div class="d-flex justify-content-between mb-4">
                 <input type="text" class="form-control w-25" id="searchInput" placeholder="Rechercher " onkeyup="filterTable()">
             </div> 

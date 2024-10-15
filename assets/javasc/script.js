@@ -117,3 +117,56 @@ function filterTable() {
         }
     }
  }    
+ /*************************************CONVERSION DU MONTANT FINAL EN LETTRE************************************************** */
+ 
+
+ function nombreEnLettres(nombre) {
+    const unites = ["", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", 
+                   "onze", "douze", "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf"];
+    const dizaines = ["", "", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingt", "quatre-vingt-dix"];
+
+    if (nombre == 0) {
+        return "zéro";
+    }
+
+    if (nombre < 20) {
+        return unites[nombre];
+    }
+
+    if (nombre < 100) {
+        if (nombre % 10 === 0) {
+            return dizaines[Math.floor(nombre / 10)];
+        } else if (nombre < 70 || (nombre >= 80 && nombre < 90)) {
+            return dizaines[Math.floor(nombre / 10)] + "-" + unites[nombre % 10];
+        } else if (nombre < 80) {
+            return "soixante-" + unites[nombre % 20];
+        } else {
+            return "quatre-vingt-" + unites[nombre % 20];
+        }
+    }
+
+    if (nombre < 1000) {
+        if (nombre === 100) {
+            return "cent";
+        } else if (nombre < 200) {
+            return "cent " + nombreEnLettres(nombre % 100);
+        } else {
+            return unites[Math.floor(nombre / 100)] + " cent" + (nombre % 100 === 0 ? "" : " " + nombreEnLettres(nombre % 100));
+        }
+    }
+
+    if (nombre < 1000000) {
+        if (nombre === 1000) {
+            return "mille";
+        } else if (nombre < 2000) {
+            return "mille " + nombreEnLettres(nombre % 1000);
+        } else {
+            return nombreEnLettres(Math.floor(nombre / 1000)) + " mille" + (nombre % 1000 === 0 ? "" : " " + nombreEnLettres(nombre % 1000));
+        }
+    }
+
+    return "Nombre trop grand";
+}
+
+let montant = 1234;
+console.log(nombreEnLettres(montant).charAt(0).toUpperCase() + nombreEnLettres(montant).slice(1) + ' francs CFA');

@@ -3,6 +3,36 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
+
+
+$matricule = $_GET['matricule'] ?? '';
+$montant = $_GET['montant'] ?? '';
+$mode_paiement = $_GET['mode_paiement'] ?? '';
+$nom = $_GET['nom'] ?? '';
+$prennom = $_GET['premom'] ?? '';
+
+
+if (isset($_GET['matricule'])) {
+   $matricule = $_GET['matricule'];
+
+}
+if (isset($_GET['nom'])) {
+   $nom = $_GET['nom'];
+}
+if (isset($_GET['prenom'])) {
+   $prenom = $_GET['prenom'];
+}
+if (isset($_GET['mois'])) {
+   $mois = $_GET['mois'];
+}
+
+
+
+
+
+
+
 ?>
 
 <!---*********************************************************LE RECU**********************************************************************-->
@@ -54,21 +84,24 @@ error_reporting(E_ALL);
     </div>
     <div class="row">
      <div>
-      <strong>
+      <p>      <strong>
        Informations sur l'élève :
       </strong>
       <br/>
-      Nom de l'élève : <?= isset($eleve['nom']) ? htmlspecialchars($eleve['nom']) : 'N/A'; ?></p>
+      </p>
+
+      Nom de l'élève :  <?php echo " " . htmlspecialchars($nom) .    htmlspecialchars($prenom) .   "<br>";  ?>
 
       <br/>
-      Matricule : <?= (isset($eleve['matricule']) ? htmlspecialchars($eleve['matricule']) : 'N/A') . '</p>'; ?>
+      Matricule :<strong> <?php echo " " . htmlspecialchars($matricule) .   "<br>";  ?> </strong>    
       <br/>
-      Classe : <?=  (isset($eleve['classe']) ? htmlspecialchars($eleve['classe']) : 'N/A') . '</p>'; ?>
+      Classe : 
+      <br/>
      </div>
      <div>
-      Nom du parent/tuteur : <?=  (isset($eleve['nom_tuteur']) ? htmlspecialchars($eleve['nom_tuteur']) : 'N/A') . '</p>';?>
+      Nom du parent/tuteur :  <?php echo " " . htmlspecialchars($prenom) .   "<br>";  ?>
       <br/>
-      Téléphone : <?=  (isset($eleve['telephone']) ? htmlspecialchars($eleve['telephone']) : 'N/A') . '</p>'; ?>
+      Mois paye :  <strong>  <?php echo " " . htmlspecialchars($mois) .   "<br>";  ?></strong>
      </div>
     </div>
    </div>
@@ -86,7 +119,7 @@ error_reporting(E_ALL);
        Montant payé
       </td>
       <td>
-      <?= isset($eleve['montant']) ? htmlspecialchars($eleve['montant']) : 'N/A'; ?>  FCFA
+      <?php echo " " . htmlspecialchars($montant) .  'FCFA'. "<br>";  ?>  
       </td>
      </tr>
      <tr>
@@ -94,7 +127,7 @@ error_reporting(E_ALL);
        Frais de mensualite :
       </td>
       <td>
-      <?= isset($eleve['montant']) ? htmlspecialchars($eleve['montant']) : 'N/A'; ?>
+      <?php echo " " . htmlspecialchars($montant) .  'FCFA'. "<br>";  ?>  
       </td>
      </tr>
      <tr>
@@ -102,7 +135,7 @@ error_reporting(E_ALL);
        Mode de paiement
       </td>
       <td>
-      <?= isset($eleve['mode_paiement']) ? htmlspecialchars($eleve['mode_paiement']) : 'N/A'; ?>
+      <?php echo "  " . htmlspecialchars($mode_paiement) . "<br>";?>
       </td>
      </tr>
     
@@ -111,12 +144,13 @@ error_reporting(E_ALL);
        Total
       </td>
       <td class="total">
-      <?php isset($eleve['montant']) ? htmlspecialchars($eleve['montant']) : 'N/A'; ?> FCFA
+      <?php echo " " . htmlspecialchars($montant) .  'FCFA'. "<br>";  ?>  
       </td>
      </tr>
     </table>
     <div class="amount-in-words">
-     FCFA
+    
+    FCFA
     </div>
    </div>
    <div class="remarks">
