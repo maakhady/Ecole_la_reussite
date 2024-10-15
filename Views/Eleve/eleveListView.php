@@ -37,7 +37,7 @@ $role = "Directeur";
                 <button class="btn btn-success menu-button"><i class="fas fa-clipboard-list"></i> Présences</button>
                 <button class="btn btn-success menu-button"><i class="fas fa-clipboard"></i> Notes</button>
                 <button class="btn btn-success menu-button"><i class="fas fa-calendar-alt"></i> Emplois du temps</button>
-                <button class="btn btn-success menu-button"><i class="fas fa-dollar-sign"></i> Comptabilité</button>
+                <a href="/../La_reussite_academy-main/Views/comptable/espace_comptView.php"><button class="btn btn-success menu-button"><i class="fas fa-dollar-sign"></i> Comptabilité</button></a>
             </div>
         </div>
 

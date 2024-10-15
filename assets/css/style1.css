@@ -24,6 +24,15 @@ body {
     text-align: center;
 }
 
+
+/*----------------------------------css importe-----------------------------------------------------------------------*/
+.menu-button {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+    background-color: #18BE78;
+
+}
 .main-content {
     background-color: #c9c9c9;
     padding: 20px;
@@ -78,9 +87,4 @@ input.form-control {
 }
 .btn-danger {
     background-color: #FF914D;
-}
-
-.btn[disabled] {
-    opacity: 0.65;
-    pointer-events: none;
 }
