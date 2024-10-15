@@ -63,7 +63,7 @@ $role = "Comptable";
 
 
     
-    <link rel="stylesheet" href="/La_reussite_academy-main/assets/css/style1.css"> 
+    <link rel="stylesheet" href="/La_reussite_academy-main/assets/css/style4.css"> 
     
    
  
@@ -121,7 +121,7 @@ $role = "Comptable";
             </div>
         <?php endif; ?>
 
-        <form method="post" action="">
+        <form method="post" >
             <input type="hidden" name="id" value="<?= htmlspecialchars($eleve['id']) ?>">
 <div class="pt">
             <div class="mb-3">
@@ -175,7 +175,7 @@ $role = "Comptable";
     </button>
             </div>
             <div class="d-grid">
-                <button type="submit" class="btn btn-danger">  <a href="espace_comptView.php" style="color: white; text-decoration: none;"> Enregistrer</a></button>
+                <button type="submit" class="btn btn-danger">  Enregistrer</a></button>
             </div>
             </div>
         </form>

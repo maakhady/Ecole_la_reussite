@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="d-grid gap-4">
                 <button class="btn btn-success menu-button"><i class="fas fa-tachometer-alt"></i> Tableau de Bord</button>
                 <a href="/../La_reussite_academy-main/eleves.php"><button class="btn btn-success menu-button"><i class="fas fa-chalkboard-teacher"></i> Élèves</button></a>
-                <button class="btn btn-success menu-button"><i class="fas fa-user"></i>Enseignats</button>
+                <a href="/../La_reussite_academy-main/index.php"><button class="btn btn-success menu-button"><i class="fas fa-user-graduate"></i> Utilisateurs</button></a> 
                 <button class="btn  btn-success menu-button"><i class="fas fa-user"></i> Employer</button>          
                 <button class="btn btn-success menu-button"><i class="fas fa-clipboard-list"></i> Présences</button>
                 <button class="btn btn-success menu-button"><i class="fas fa-dollar-sign"></i> Salaire</button>
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- Main Content -->
         <div class="col-md-10 main-content">
             <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light">
-                <h2>Frais d'inscription d'un Élève</h2>
+                <h2>Suivi de Payement des Élèves</h2>
                 <div class="d-flex align-items-center">
                     <a href="/../La_reussite_academy-main/Views/ConnexionView.php" class="btn btn-danger mr-2">Déconnexion</a>
                     <div class="logo-container">
@@ -175,7 +175,7 @@ if ($statut_paiement !== 'Payé') {
             data-prenom='" . htmlspecialchars($eleve['prenom']) . "' 
             data-matricule='" . htmlspecialchars($eleve['matricule']) . "' 
             data-classe='" . htmlspecialchars($eleve['classe']) . "'>
-            Inscrire
+            Inscription
           </a>";
 }
 

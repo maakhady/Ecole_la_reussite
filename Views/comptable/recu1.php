@@ -57,8 +57,6 @@ if (isset($_GET['matricule'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="/La_reussite_academy-main/assets/css/stylerecu.css"> 
-
-    
 </head>
 <body>
 
@@ -71,17 +69,17 @@ if (isset($_GET['matricule'])) {
 <!--reçu-->
 
 
+
    <div class="receipt">
    <div class="header">
     <img alt="Logo de l'école" height="100" src="../../assets/img/logo.png" width="100"/>
     <div class="title">
      <h1>
-      Reçu Frais d'Inscription
+      Reçu Frais Mensualite
      </h1>
     </div>
    
-   </div> 
-   
+   </div>
    <div class="info">
     <div class="row">
      <div>
@@ -138,7 +136,7 @@ if (isset($_GET['matricule'])) {
       <br/>
       Téléphone : <?=  (isset($eleve['tel_tuteur']) ? htmlspecialchars($eleve['tel_tuteur']) : '') . '</p>'; ?>
       
-
+      <p><strong>Mois payé :</strong> <?php echo htmlspecialchars($mois); ?> </p>
      </div>
     </div>
    </div>
@@ -153,7 +151,7 @@ if (isset($_GET['matricule'])) {
      </tr>
      <tr>
       <td>
-      Frais Inscription
+      Frais mensualite
       </td>
       <td>
       <p><strong>Montant payé :</strong> <?php echo htmlspecialchars($montant); ?> CFA</p>
@@ -161,7 +159,7 @@ if (isset($_GET['matricule'])) {
      </tr>
      <tr>
       <td>
-       Frais d'inscription :
+       Frais de mensualite :
       </td>
       <td>
       <p><strong>Montant payé :</strong> <?php echo htmlspecialchars($montant); ?> CFA</p>
@@ -195,7 +193,7 @@ if (isset($_GET['matricule'])) {
    <div class="footer">
     Merci d'avoir inscrit votre enfant à l'École LA REUSSITE ACADEMY !
    
-    
+      
 </div>
 
 <!-- Le reste de votre reçu -->

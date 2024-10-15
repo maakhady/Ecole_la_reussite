@@ -30,7 +30,7 @@ class PaiementController {
                     echo "paiement effectue";
                     // Rediriger vers une page de succès ou afficher un message de succès
                     $message = "Paiement enregistré avec succès!";
-                    header("Location: recu.php?matricule="  ."&matricule=" .$matricule  . "&montant=" . $montant . "&mode_paiement=" . $mode_paiement);
+                    header("Location: recu1.php?matricule="  ."&matricule=" .$matricule  . "&montant=" . $montant . "&mois=" . $mois . "&mode_paiement=" . $mode_paiement);
                     exit();
                 } else {
                     // Afficher un message d'erreur
