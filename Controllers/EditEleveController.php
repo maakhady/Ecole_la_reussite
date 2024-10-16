@@ -1,0 +1,37 @@
+<?php
+require_once 'Models/EditEleveModel.php';
+
+class EditEleveController {
+    private $model;
+
+    public function __construct(EditEleveModel $model) {
+        $this->model = $model;
+    }
+
+    public function editEleve($id) {
+        try {
+            $eleve = $this->model->getEleveById($id);
+            return $eleve;
+        } catch (Exception $e) {
+            // Gérer l'erreur (par exemple, rediriger vers une page d'erreur)
+            return "Erreur : " . $e->getMessage();
+        }
+    }
+
+    public function updateEleve($id, $eleveData) {
+        error_log("Tentative de mise à jour de l'élève ID: " . $id);
+        error_log("Données reçues: " . print_r($eleveData, true));
+        try {
+            $result = $this->model->updateEleve($id, $eleveData);
+            if ($result) {
+                // Rediriger vers une page de succès ou la liste des élèves
+                error_log("Mise à jour réussie pour l'élève ID: " . $id);
+                return "L'élève a été mis à jour avec succès.";
+            }
+        } catch (Exception $e) {
+            error_log("Erreur lors de la mise à jour de l'élève ID " . $id . ": " . $e->getMessage());
+            // Gérer l'erreur (par exemple, réafficher le formulaire avec un message d'erreur)
+            return "Erreur : " . $e->getMessage();
+        }
+    }
+}

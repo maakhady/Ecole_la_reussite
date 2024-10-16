@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    background-color: #ece9e9; /* Couleur de fond gris clair pour la sidebar */
+    height: 100vh;
+    padding-left: 0;
+}
+
+.sidebar .nav-link {
+    color: #0D5E3C; /* Texte vert pour les éléments de navigation */
+    font-size: 16px;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 8px;
+    margin-left: 8px;
+}
+
+.sidebar .nav-link.active {
+    background-color: #0D5E3C; /* Couleur active (vert foncé) */
+    color: white;
+    text-align: center;
+}
+
+.main-content {
+    background-color: #c9c9c9;
+    padding: 20px;
+}
+
+.btn-success {
+    background-color: #18BE78; /* Vert pour "Ajouter un élève" */
+    border: none;
+}
+
+.btn-danger {
+    background-color: #FF914D; /* Orange pour "Déconnexion" */
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+}
+
+input.form-control {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.d-flex.align-items-center img {
+    width: 70px; /* Ajustez la taille du logo */
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+}
+
+.border-primary {
+    border: 2px solid #060FDF;
+}
+.actions .btn {
+    margin-right: 5px;
+}
+.table-responsive {
+    overflow-x: auto;
+}
+.btn-primary {
+    background-color: #4f53da;
+}
+.btn-warning {
+    background-color: #e22020;
+    color: white;
+}
+.nav-item {
+    /* background-color: #18BE78; */
+    border-radius: 8px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+}
+.btn-danger {
+    background-color: #FF914D;
+}
