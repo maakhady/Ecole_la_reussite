@@ -44,7 +44,7 @@ if (!isset($users) || !is_array($users)) {
                     <button class="btn btn-success menu-button"><i class="fas fa-clipboard-list"></i> Présences</button>
                     <button class="btn btn-success menu-button"><i class="fas fa-clipboard"></i> Notes</button>
                     <button class="btn btn-success menu-button"><i class="fas fa-calendar-alt"></i> Emplois du temps</button>
-                    <button class="btn btn-success menu-button"><i class="fas fa-dollar-sign"></i> Comptabilité</button>
+                  <a href="/../La_reussite_academy-main/Views/comptable/espace_comptView.php"><button class="btn btn-success menu-button"><i class="fas fa-dollar-sign"></i> Comptabilité</button></a>
                 </div>
             </div>
 
@@ -89,6 +89,8 @@ if (!isset($users) || !is_array($users)) {
                     <input type="text" class="form-control w-25" placeholder="Rechercher">
                 </div> 
 
+                
+
                 <!-- Section liste des utilisateurs -->
                 <div class="bg-white p-4 rounded shadow">
                     <h5 class="text-center mb-4">Liste des Utilisateurs</h5>
@@ -96,8 +98,7 @@ if (!isset($users) || !is_array($users)) {
                         <?php if (count($users) > 0) : ?>
                             <table class="table table-striped">
                                 <thead>
-                                    <tr>
-                                        <th scope="col">Matricule</th>
+                                    <tr>e</th>
                                         <th scope="col">Nom</th>
                                         <th scope="col">Prénom</th>
                                         <th scope="col">Rôle</th>
@@ -106,6 +107,7 @@ if (!isset($users) || !is_array($users)) {
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
+                                        <th scope="col">Matricul
                                 <tbody>
                                     <?php foreach ($users as $user): ?>
                                         <tr>

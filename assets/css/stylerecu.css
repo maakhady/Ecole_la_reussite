@@ -1,0 +1,129 @@
+
+      body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+.receipt {
+    width: 800px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+.header img {
+    width: 80px;
+}
+.header .title {
+    text-align: center;
+    flex-grow: 1;
+}
+.header .title h1 {
+    margin: 0;
+    color: #18BE78;
+}
+.info, .payment-details, .footer {
+    margin-bottom: 20px;
+}
+.info .row, .payment-details .row {
+    display: flex;
+    justify-content: space-between;
+}
+.info .row div, .payment-details .row div {
+    width: 48%;
+}
+.payment-details table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.payment-details table, .payment-details th, .payment-details td {
+    border: 1px solid #ddd;
+}
+.payment-details th, .payment-details td {
+    padding: 10px;
+    text-align: left;
+}
+.payment-details th {
+    background-color: #f5f5f5;
+}
+.total {
+    text-align: right;
+    font-weight: bold;
+}
+.amount-in-words {
+    margin-top: 10px;
+    font-weight: bold;
+}
+.remarks {
+    margin-top: 20px;
+    font-style: italic;
+}
+.footer {
+    text-align: center;
+    color: #18BE78;
+    font-weight: bold;
+}
+.stamp {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 100px;
+    opacity: 0.5;
+}
+
+    /* Styliser les boutons */
+    .print-btn button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    /* Bouton "Imprimer" avec couleur verte */
+    .print-btn .imprimer-btn {
+        background-color: #18BE78; /* Vert */
+        color: white;
+        border-radius: 5px;
+    }
+
+    /* Bouton "Retour" avec couleur rouge */
+    .print-btn .retour-btn {
+        background-color: #e74c3c; /* Rouge */
+        color: white;
+        border-radius: 5px;
+    }
+
+    /* Masquer les boutons lors de l'impression */
+    @media print {
+        .print-btn {
+            display: none;
+        }
+    }
+
+.print-btn{
+    margin-top: 46%;
+   
+}
+
+.cachet {
+    position: absolute;
+    bottom: 48px; /* Ajustez la position verticale selon vos besoins */
+    right: 30px;  /* Ajustez la position horizontale */
+    width: 150px; /* Ajustez la taille */
+   
+    right: 510px;
+}

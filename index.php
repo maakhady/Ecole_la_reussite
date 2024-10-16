@@ -13,6 +13,8 @@ require_once 'Controllers/EleveController.php';
 
 
 
+
+
 try {
     if (!defined('DB_SERVER') || !defined('DB_DATABASE') || !defined('DB_USERNAME') || !defined('DB_PASSWORD')) {
         throw new Exception("Les constantes de connexion à la base de données ne sont pas définies.");
